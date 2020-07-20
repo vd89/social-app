@@ -10,7 +10,8 @@ export default () => {
       <title>MERN social App</title>
     </head>
     <body>
-      <div id="root"></div>
+      <h1>This is the test run</h1>
+      <div id="root"> Hello World</div>
       <!-- <script src="/dist/bundle.js" type="text/javascript"></script> -->
     </body>
     </html>

@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 
+import Template from '../template'
+
 const app = express()
 
 // Middleware
@@ -16,4 +18,9 @@ app.use(helmet())
 app.use(cookieParser())
 app.use(compression())
 
+
+app.get('/',(req,res) => {
+  res.status(200).send(Template())
+}
+)
 export default app
