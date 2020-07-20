@@ -1,10 +1,10 @@
 /** @format */
 
-import { Router } from 'express';
-import { signin, signout } from '../controller/authController';
+import express from 'express';
+import authCtrl from '../controller/authController';
 
-const router = Router();
-
+const router = express.Router();
+const { signin, signout } = authCtrl;
 /*
   @ Signin route user
   @ Route /api/auth/signin

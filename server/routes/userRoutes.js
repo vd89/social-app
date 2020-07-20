@@ -1,18 +1,12 @@
 /** @format */
 
-import { Router } from 'express';
-import {
-	userList,
-	userCreate,
-	userRead,
-	userUpdate,
-	userRemove,
-	userByID,
-} from '../controller/userController';
+import express from 'express';
+import userCtrl from '../controller/userController';
+import authCtrl from '../controller/authController';
 
-import { requiredSignin, hasAuthorization } from '../controller/authController';
-const router = Router();
-
+const router = express.Router();
+const { userList, userCreate, userRead, userUpdate, userRemove, userByID } = userCtrl;
+const { requiredSignin, hasAuthorization } = authCtrl;
 /*
   @ User list and create user
   @ Router /api/users/

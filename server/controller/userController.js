@@ -1,9 +1,10 @@
 /** @format */
 
-import { getErrorMessage } from '../helpers/dbErrorHandler';
+import errHandler from '../helpers/dbErrorHandler';
 import User from '../models/User';
 import { extend } from 'lodash';
 
+const { getErrorMessage } = errHandler;
 // create new user
 const userCreate = async (req, res) => {
 	const user = new User(req.body);
@@ -80,4 +81,4 @@ const userRemove = async (req, res) => {
 	}
 };
 
-export { userList, userByID, userCreate, userRead, userRemove, userUpdate };
+export default { userList, userByID, userCreate, userRead, userRemove, userUpdate };
