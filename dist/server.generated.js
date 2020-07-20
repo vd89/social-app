@@ -95,7 +95,19 @@ module.exports =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/** @format */\nconst config = {\n  env: \"development\" || false,\n  port: process.env.PORT || 3000,\n  jwtSecret: process.env.JWT_SECRET || 'YOUR_secret_key',\n  mongoUri: process.env.MONGODB_URI || process.env.MONGO_HOST || 'mongodb://' + (process.env.IP || 'localhost') + ':' + (process.env.MONGO_PORT || '27017') + '/mernproject'\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (config);\n\n//# sourceURL=webpack:///./config/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/** @format */\nconst config = {\n  env: \"development\" || false,\n  port: process.env.PORT || 3000,\n  jwtSecret: process.env.JWT_SECRET || 'YOUR_secret_key',\n  mongoUri: process.env.MONGODB_URI || process.env.MONGO_HOST || 'mongodb://' + (process.env.IP || 'localhost') + ':' + (process.env.MONGO_PORT || '27017') + '/mernproject',\n  mongoOPT: {\n    useNewUrlParser: true,\n    useUnifiedTopology: true,\n    useCreateIndex: true,\n    useFindAndModify: false\n  }\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (config);\n\n//# sourceURL=webpack:///./config/config.js?");
+
+/***/ }),
+
+/***/ "./server/controller/dbController.js":
+/*!*******************************************!*\
+  !*** ./server/controller/dbController.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config/config */ \"./config/config.js\");\n/** @format */\n\n\nconst {\n  mongoUri,\n  mongoOPT\n} = _config_config__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (async () => {\n  try {\n    await Object(mongoose__WEBPACK_IMPORTED_MODULE_0__[\"connect\"])(mongoUri, mongoOPT);\n    console.log(`Database is connected to the app... 🚀 🚀 🚀`);\n  } catch (err) {\n    console.log('MongoErr :>> ', err);\n  }\n});\n\n//# sourceURL=webpack:///./server/controller/dbController.js?");
 
 /***/ }),
 
@@ -119,7 +131,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var expr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./express */ \"./server/express.js\");\n/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/config */ \"./config/config.js\");\n\n\nconst {\n  port\n} = _config_config__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; // Server\n\n_express__WEBPACK_IMPORTED_MODULE_0__[\"default\"].listen(port, err => {\n  if (err) {\n    console.log(err);\n  }\n\n  console.log(`Server is running on port ${port}... 🐕 🐕`);\n});\n\n//# sourceURL=webpack:///./server/server.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./express */ \"./server/express.js\");\n/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/config */ \"./config/config.js\");\n/* harmony import */ var _controller_dbController__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controller/dbController */ \"./server/controller/dbController.js\");\n\n\n\nconst {\n  port\n} = _config_config__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; // DataBase controller\n\nObject(_controller_dbController__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(); // Server\n\n_express__WEBPACK_IMPORTED_MODULE_0__[\"default\"].listen(port, err => {\n  if (err) {\n    console.log(err);\n  }\n\n  console.log(`Server is running on port ${port}... 🐕 🐕`);\n});\n\n//# sourceURL=webpack:///./server/server.js?");
 
 /***/ }),
 
@@ -186,6 +198,17 @@ eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///externa
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"helmet\");\n\n//# sourceURL=webpack:///external_%22helmet%22?");
+
+/***/ }),
+
+/***/ "mongoose":
+/*!***************************!*\
+  !*** external "mongoose" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"mongoose\");\n\n//# sourceURL=webpack:///external_%22mongoose%22?");
 
 /***/ }),
 

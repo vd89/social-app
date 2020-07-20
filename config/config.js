@@ -10,7 +10,13 @@ const config = {
 			(process.env.IP || 'localhost') +
 			':' +
 			(process.env.MONGO_PORT || '27017') +
-			'/mernproject',
+			'/social-app',
+	mongoOPT: {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false,
+	},
 };
 
 export default config;
