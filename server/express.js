@@ -29,5 +29,13 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
+app.use((err, req, res, next) => {
+	if (err.name === 'UnauthorizedError') {
+		return res.status(401).json({ error: err.name + ': ' + err.message });
+	} else if (err) {
+		console.log(err);
+		return res.status(400).json({ error: err.name + ': ' + err.message });
+	}
+});
 
 export default app;

@@ -10,6 +10,7 @@ import {
 	userByID,
 } from '../controller/userController';
 
+import { requiredSignin, hasAuthorization } from '../controller/authController';
 const router = Router();
 
 /*
@@ -24,7 +25,11 @@ router.route('/').get(userList).post(userCreate);
   @ Route /api/users/:userId
   @ GET ,PUT and DELETE
 */
-router.route('/:userId').get(userRead).put(userUpdate).delete(userRemove);
+router
+	.route('/:userId')
+	.get(requiredSignin, userRead)
+	.put(requiredSignin, hasAuthorization, userUpdate)
+	.delete(requiredSignin, hasAuthorization, userRemove);
 
 /*
   @ User get user id  to get params
