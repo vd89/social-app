@@ -119,7 +119,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mong
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userList\", function() { return userList; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userByID\", function() { return userByID; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userCreate\", function() { return userCreate; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userRead\", function() { return userRead; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userRemove\", function() { return userRemove; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userUpdate\", function() { return userUpdate; });\n/** @format */\n// view all user\nconst userList = (req, res) => {}; // create new user\n\n\nconst userCreate = (req, res) => {}; // get user By id\n\n\nconst userByID = (req, res) => {}; // view single user\n\n\nconst userRead = (req, res) => {}; // Update user\n\n\nconst userUpdate = (req, res) => {}; // Delete user\n\n\nconst userRemove = (req, res) => {};\n\n\n\n//# sourceURL=webpack:///./server/controller/userController.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userList\", function() { return userList; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userByID\", function() { return userByID; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userCreate\", function() { return userCreate; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userRead\", function() { return userRead; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userRemove\", function() { return userRemove; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"userUpdate\", function() { return userUpdate; });\n/* harmony import */ var _helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/dbErrorHandler */ \"./server/helpers/dbErrorHandler.js\");\n/* harmony import */ var _models_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/User */ \"./server/models/User.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);\n/** @format */\n\n\n // create new user\n\nconst userCreate = async (req, res) => {\n  const user = new _models_User__WEBPACK_IMPORTED_MODULE_1__[\"default\"](req.body);\n\n  try {} catch (err) {\n    return res.status(400).json({\n      error: Object(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__[\"getErrorMessage\"])(err)\n    });\n  }\n}; // view all user\n\n\nconst userList = async (req, res) => {\n  try {\n    let users = await _models_User__WEBPACK_IMPORTED_MODULE_1__[\"default\"].find();\n  } catch (err) {\n    return res.status(400).json({\n      error: Object(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__[\"getErrorMessage\"])(err)\n    });\n  }\n}; // get user By id\n\n\nconst userByID = async (req, res, next, id) => {\n  try {\n    let user = await _models_User__WEBPACK_IMPORTED_MODULE_1__[\"default\"].findById(id);\n\n    if (!user) {\n      return res.status(400).json({\n        error: 'User not found'\n      });\n    }\n\n    req.profile = user;\n    next();\n  } catch (err) {\n    return res.status(400).json({\n      error: Object(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__[\"getErrorMessage\"])(err)\n    });\n  }\n}; // view single user\n\n\nconst userRead = (req, res) => {\n  req.profile.hashedPassword = undefined;\n  return res.json(req.profile);\n}; // Update user\n\n\nconst userUpdate = async (req, res) => {\n  try {\n    let user = req.profile;\n    user = Object(lodash__WEBPACK_IMPORTED_MODULE_2__[\"extend\"])(user, req.body);\n    user.updated = Date.now();\n    await user.save();\n    user.hashedPassword = undefined;\n    return res.status(200).json(user);\n  } catch (err) {\n    return res.status(400).json({\n      error: Object(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__[\"getErrorMessage\"])(err)\n    });\n  }\n}; // Delete user\n\n\nconst userRemove = async (req, res) => {\n  try {\n    const user = req.profile;\n    const deletedUser = await user.remove();\n    deletedUser.hashedPassword = undefined;\n    return res.status(200).json(deletedUser);\n  } catch (err) {\n    return res.status(400).json({\n      error: Object(_helpers_dbErrorHandler__WEBPACK_IMPORTED_MODULE_0__[\"getErrorMessage\"])(err)\n    });\n  }\n};\n\n\n\n//# sourceURL=webpack:///./server/controller/userController.js?");
 
 /***/ }),
 
@@ -132,6 +132,30 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cors */ \"cors\");\n/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cors__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! morgan */ \"morgan\");\n/* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(morgan__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var helmet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! helmet */ \"helmet\");\n/* harmony import */ var helmet__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(helmet__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\n/* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cookie_parser__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! compression */ \"compression\");\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(compression__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../template */ \"./template.js\");\n/* harmony import */ var _routes_userRoutes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routes/userRoutes */ \"./server/routes/userRoutes.js\");\n/* harmony import */ var _routes_authRoutes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routes/authRoutes */ \"./server/routes/authRoutes.js\");\n/** @format */\n\n\n\n\n\n\n\n\n\nconst app = express__WEBPACK_IMPORTED_MODULE_0___default()(); // Middleware\n\napp.use(cors__WEBPACK_IMPORTED_MODULE_1___default()());\napp.use(express__WEBPACK_IMPORTED_MODULE_0___default.a.json());\napp.use(express__WEBPACK_IMPORTED_MODULE_0___default.a.urlencoded({\n  extended: true\n}));\napp.use(morgan__WEBPACK_IMPORTED_MODULE_2___default()('dev'));\napp.use(helmet__WEBPACK_IMPORTED_MODULE_3___default()());\napp.use(cookie_parser__WEBPACK_IMPORTED_MODULE_4___default()());\napp.use(compression__WEBPACK_IMPORTED_MODULE_5___default()()); // Routes\n\napp.get('/', (req, res) => {\n  res.status(200).send(Object(_template__WEBPACK_IMPORTED_MODULE_6__[\"default\"])());\n});\napp.use('/api/users', _routes_userRoutes__WEBPACK_IMPORTED_MODULE_7__[\"default\"]);\napp.use('/api/auth', _routes_authRoutes__WEBPACK_IMPORTED_MODULE_8__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] = (app);\n\n//# sourceURL=webpack:///./server/express.js?");
+
+/***/ }),
+
+/***/ "./server/helpers/dbErrorHandler.js":
+/*!******************************************!*\
+  !*** ./server/helpers/dbErrorHandler.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/** @format */\nconst getErrorMessage = err => {\n  let message = '';\n\n  if (err.code) {\n    switch (err.code) {\n      case 11000:\n      case 11001:\n        message = getUniqueErrorMessage(err);\n        break;\n\n      default:\n        message = 'Something went wrong';\n        break;\n    }\n  } else {\n    for (const errName in err.errors) {\n      if (err.errors[errName].messsage) {\n        message = err.errors[errName].message;\n      }\n    }\n  }\n\n  return message;\n};\n\nconst getUniqueErrorMessage = err => {\n  let output;\n\n  try {\n    let fieldName = err.message.substring(err.message.lastIndexOf('.$') + 2, err.message.lastIndexOf('_1'));\n    output = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ' already exists';\n  } catch (ex) {\n    output = 'Unique field already exists';\n  }\n\n  return output;\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  getErrorMessage\n});\n\n//# sourceURL=webpack:///./server/helpers/dbErrorHandler.js?");
+
+/***/ }),
+
+/***/ "./server/models/User.js":
+/*!*******************************!*\
+  !*** ./server/models/User.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var bcrypt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bcrypt */ \"bcrypt\");\n/* harmony import */ var bcrypt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bcrypt__WEBPACK_IMPORTED_MODULE_1__);\n/** @format */\n\n\nconst UserSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0__[\"Schema\"]({\n  name: {\n    type: String,\n    trim: true,\n    required: 'Name is required'\n  },\n  email: {\n    type: String,\n    trim: true,\n    unique: 'Email already Exists',\n    required: 'Email is required'\n  },\n  hashedPassword: {\n    type: String,\n    required: 'Password is required'\n  },\n  created: {\n    type: Date,\n    default: Date.now()\n  },\n  updated: Date\n}); // To virtualy set password for user and then store to database\n\nUserSchema.virtual('password').set(function (password) {\n  this._password = password;\n  this.salt = this.makeSalt();\n  this.hashedPassword = this.hashingPassword(password, this.salt);\n}).get(function () {\n  return this._password;\n}); // Methods for password\n\nUserSchema.methods = {\n  authenticate: function (password) {\n    return Object(bcrypt__WEBPACK_IMPORTED_MODULE_1__[\"compareSync\"])(password, this.hashedPassword);\n  },\n  makeSalt: function () {\n    return Object(bcrypt__WEBPACK_IMPORTED_MODULE_1__[\"genSaltSync\"])(10);\n  },\n  hashingPassword: function (password, salt) {\n    if (!password) {\n      return '';\n    }\n\n    try {\n      return Object(bcrypt__WEBPACK_IMPORTED_MODULE_1__[\"hashSync\"])(password, salt);\n    } catch (err) {\n      return '';\n    }\n  }\n}; // Path and validation\n\nUserSchema.path('hashedPassword').validate(function (v) {\n  if (this._password && this._password.length < 6) {\n    this.invalidate('password', 'Password must be at leat 6 characters.');\n  }\n\n  if (this.isNew && !this._password) {\n    this.invalidate('password', 'Password is required');\n  }\n}, null);\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(mongoose__WEBPACK_IMPORTED_MODULE_0__[\"model\"])('User', UserSchema, 'users'));\n\n//# sourceURL=webpack:///./server/models/User.js?");
 
 /***/ }),
 
@@ -194,6 +218,17 @@ eval("module.exports = __webpack_require__(/*! /home/daxlaptop/workingProjects/m
 
 /***/ }),
 
+/***/ "bcrypt":
+/*!*************************!*\
+  !*** external "bcrypt" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"bcrypt\");\n\n//# sourceURL=webpack:///external_%22bcrypt%22?");
+
+/***/ }),
+
 /***/ "compression":
 /*!******************************!*\
   !*** external "compression" ***!
@@ -246,6 +281,17 @@ eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///externa
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"helmet\");\n\n//# sourceURL=webpack:///external_%22helmet%22?");
+
+/***/ }),
+
+/***/ "lodash":
+/*!*************************!*\
+  !*** external "lodash" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"lodash\");\n\n//# sourceURL=webpack:///external_%22lodash%22?");
 
 /***/ }),
 
