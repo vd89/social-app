@@ -1,7 +1,7 @@
 /** @format */
 const config = {
 	env: process.env.NODE_ENV || 'development',
-	port: process.env.PORT || 8085,
+	port: process.env.PORT || 3000,
 	jwtSecret: process.env.JWT_SECRET || 'I_am_THE_Secret_Key_Process',
 	mongoUri:
 		process.env.MONGODB_URI ||

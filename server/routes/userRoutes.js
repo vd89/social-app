@@ -12,6 +12,7 @@ const { requiredSignin, hasAuthorization } = authCtrl;
   @ Router /api/users/
   @ POST && GET
 */
+
 router.route('/').get(userList).post(userCreate);
 
 /*

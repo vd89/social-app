@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 	res.status(200).send(Template());
 });
 app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 app.use((err, req, res, next) => {
 	if (err.name === 'UnauthorizedError') {

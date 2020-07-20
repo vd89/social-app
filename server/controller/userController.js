@@ -9,6 +9,10 @@ const { getErrorMessage } = errHandler;
 const userCreate = async (req, res) => {
 	const user = new User(req.body);
 	try {
+		await user.save();
+		return res.status(200).json({
+			message: 'Successfully signed up!',
+		});
 	} catch (err) {
 		return res.status(400).json({
 			error: getErrorMessage(err),
@@ -19,7 +23,8 @@ const userCreate = async (req, res) => {
 // view all user
 const userList = async (req, res) => {
 	try {
-		let users = await User.find();
+		let users = await User.find().select('-hashedPassword');
+		return res.status(200).json(users);
 	} catch (err) {
 		return res.status(400).json({
 			error: getErrorMessage(err),
