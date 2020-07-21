@@ -20,13 +20,13 @@ const create = async (user) => {
 // View All user
 const list = async (signal) => {
 	try {
-		const response = await fetch('/api/users/', {
+		let response = await fetch('/api/users/', {
 			method: 'GET',
 			signal: signal,
 		});
 		return await response.json();
 	} catch (err) {
-		console.log('err :>> ', err);
+		console.log(err);
 	}
 };
 
@@ -66,7 +66,7 @@ const update = async (params, credentials, users) => {
 	}
 };
 
-// Delete the user 
+// Delete the user
 const remove = async (params, credentials) => {
 	try {
 		const response = await fetch('/api/users/' + params.userId, {

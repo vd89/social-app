@@ -13,7 +13,7 @@ const { requiredSignin, hasAuthorization } = authCtrl;
   @ POST && GET
 */
 
-router.route('/').get(userList).post(userCreate);
+router.route('/api/users').get(userList).post(userCreate);
 
 /*
   @ User read, update and delete
@@ -21,7 +21,7 @@ router.route('/').get(userList).post(userCreate);
   @ GET ,PUT and DELETE
 */
 router
-	.route('/:userId')
+	.route('/api/users/:userId')
 	.get(requiredSignin, userRead)
 	.put(requiredSignin, hasAuthorization, userUpdate)
 	.delete(requiredSignin, hasAuthorization, userRemove);

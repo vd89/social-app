@@ -34,8 +34,8 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
 app.get('/', (req, res) => {
 	res.status(200).send(Template());
 });
-app.use('/api/users', userRoutes);
-app.use('/auth', authRoutes);
+app.use('/', userRoutes);
+app.use('/', authRoutes);
 
 app.use((err, req, res, next) => {
 	if (err.name === 'UnauthorizedError') {

@@ -10,13 +10,13 @@ const { signin, signout } = authCtrl;
   @ Route /api/auth/signin
   @ POST
 */
-router.route('/signin').post(signin);
+router.route('/auth/signin').post(signin);
 
 /*
   @ Signout Route user
   @ Route /api/auth/signout
   @ GET
 */
-router.route('/signout').get(signout);
+router.route('/auth/signout').get(signout);
 
 export default router;
