@@ -10,6 +10,7 @@ export default () => {
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+      <link rel="icon" href="./client/assets/images/share.png" type="image/pug">
       <title>MERN social App</title>
     </head>
     <body>
