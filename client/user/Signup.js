@@ -17,6 +17,7 @@ import {
 	DialogContentText,
 } from '@material-ui/core';
 import { create } from './userApi';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -134,11 +135,11 @@ export default function Signup() {
 					<DialogContentText>New account successfully created.</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					{/* <Link to='/signin'>
+					<Link to='/signin'>
 						<Button color='primary' autoFocus='autoFocus' variant='contained'>
 							Sign In
-						</Button> */}
-					{/* </Link> */}
+						</Button>
+					</Link>
 				</DialogActions>
 			</Dialog>
 		</div>
