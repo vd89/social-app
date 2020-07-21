@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
+import { hot } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
 
 import theme from './theme';
@@ -17,4 +18,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default hot(module)(App);

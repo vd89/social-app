@@ -20,7 +20,7 @@ const create = async (user) => {
 // View All user
 const list = async (signal) => {
 	try {
-		let response = await fetch('/api/users/', {
+		let response = await fetch('/api/users', {
 			method: 'GET',
 			signal: signal,
 		});

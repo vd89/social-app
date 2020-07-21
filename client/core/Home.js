@@ -33,7 +33,8 @@ export default function Home() {
 					Welcome to Social media App
 				</Typography>
 			</CardContent>
-			<Link to='/api/users'>Users</Link>
+			<Link to='/users'>Users</Link>
+			<Link to='/signup'>Signup</Link>
 		</Card>
 	);
 }
