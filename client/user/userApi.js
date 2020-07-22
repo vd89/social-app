@@ -1,5 +1,7 @@
 /** @format */
 
+import { CreditCard } from '@material-ui/icons';
+
 // register user
 const create = async (user) => {
 	try {
@@ -35,7 +37,6 @@ const read = async (params, credentials, signal) => {
 	try {
 		const response = await fetch('/api/users/' + params.userId, {
 			method: 'GET',
-			signal: signal,
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ const update = async (params, credentials, users) => {
 				Accept: 'application/json',
 				Authorization: 'Bearer ' + credentials.t,
 			},
-			body: JSON.stringify(users),
+			body: users,
 		});
 		return await response.json();
 	} catch (err) {
@@ -82,4 +83,40 @@ const remove = async (params, credentials) => {
 	}
 };
 
-export { create, list, read, update, remove };
+// Follow user
+const follow = async (params, credentials, followId) => {
+	try {
+		const response = await fetch('/api/users/follow/', {
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + credentials.t,
+			},
+			body: JSON.stringify({ userId: params.userId, followId: followId }),
+		});
+		return await response.json();
+	} catch (err) {
+		console.log('err :>> ', err);
+	}
+};
+
+//Unfollow user
+const unfollow = async (params, credentials, unfollowId) => {
+	try {
+		const response = await fetch('/api/users/unfollow', {
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + credentials.t,
+			},
+			body: JSON.stringify({ userId: params.userId, unfollowId: unfollowId }),
+		});
+		return await response.json();
+	} catch (err) {
+		console.log('err :>> ', err);
+	}
+};
+
+export { create, list, read, update, remove, follow, unfollow };

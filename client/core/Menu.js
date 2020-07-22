@@ -9,7 +9,7 @@ import auth from '../auth/authHelper';
 
 const isActive = (history, path) => {
 	if (history.location.pathname == path) {
-		return { color: '#ff4081' };
+		return { color: '#ffa726' };
 	} else {
 		return { color: '#fffff' };
 	}
@@ -27,17 +27,17 @@ const Menu = withRouter(({ history }) => (
 				<Button style={isActive(history, '/users')}>Users</Button>
 			</Link>
 			{!auth.isAuthenticate() && (
-				<>
+				<div>
 					<Link to='/signup' style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/signup')}>Sign Up</Button>
 					</Link>
 					<Link to='/signin' style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/signin')}>Sign In</Button>
 					</Link>
-				</>
+				</div>
 			)}
 			{auth.isAuthenticate() && (
-				<>
+				<div>
 					<Link to={'/user/' + auth.isAuthenticate().user._id} style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/user/' + auth.isAuthenticate().user._id)}>
 							My Profile
@@ -50,7 +50,7 @@ const Menu = withRouter(({ history }) => (
 						}}>
 						Sign Out
 					</Button>
-				</>
+				</div>
 			)}
 		</Toolbar>
 	</AppBar>

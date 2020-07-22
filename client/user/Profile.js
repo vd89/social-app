@@ -30,8 +30,9 @@ const userStyle = makeStyles((theme) => ({
 		marginTop: theme.spacing(10),
 	}),
 	title: {
-		marginTop: theme.spacing(3),
+		margin: `${theme.spacing(2)}px ${theme.spacing(1)}px 0`,
 		color: theme.palette.protectedTitle,
+		fontSize: '1em',
 	},
 	bigAvatar: {
 		width: 60,
@@ -42,8 +43,11 @@ const userStyle = makeStyles((theme) => ({
 
 export default function Profile({ match }) {
 	const classes = userStyle();
-	const [user, setUser] = useState({});
-	const [redirectToSignin, setRedirectToSignin] = useState(false);
+	const [values, setValues] = useState({
+		user: { following: [], followers: [] },
+		redirectToSignin: false,
+		following: false,
+	});
 	const jwt = auth.isAuthenticate();
 
 	useEffect(() => {
@@ -56,10 +60,12 @@ export default function Profile({ match }) {
 			},
 			{ t: jwt.token, signal }
 		).then((data) => {
+			console.log('fetched data ', data);
 			if (data && data.error) {
-				setRedirectToSignin(true);
+				setValues({ ...values, error: data.error, redirectToSignin: true });
 			} else {
-				setUser(data);
+				let following = checkFollow(data);
+				setValues({ ...values, user: data, following: following });
 			}
 		});
 		return function cleanup() {
@@ -67,15 +73,25 @@ export default function Profile({ match }) {
 		};
 	}, [match.params.userId]);
 
-	const photoUrl = values.user._id
-		? `/api/users/photo/${values.user._id}? ${new Date().getTime()}`
+	const checkFollow = (user) => {
+		const match =
+			user &&
+			user.followers.some((follower) => {
+				return follower._id == jwt.user._id;
+			});
+		return match;
+	};
+	const { user, redirectToSignin } = values;
+	// console.log('values  ==>', values, 'user  ==>', user);
+	const photoUrl = user._id
+		? `/api/users/photo/${user._id}? ${new Date().getTime()}`
 		: '/api/users/defaultphoto';
 
 	if (redirectToSignin) {
 		return <Redirect to='/signin' />;
 	}
 	return (
-		<>
+		<div>
 			<Paper className={classes.root} elevation={4}>
 				<Typography variant='h6' className={classes.title}>
 					Profile
@@ -99,11 +115,13 @@ export default function Profile({ match }) {
 					</ListItem>
 					<Divider />
 					<ListItem>
-						<ListItemText primary={user.abort} />
-						<ListItemText primary={'Joined: ' + new Date(user.created).toDateString()} />
+						<ListItemText
+							primary={user.about}
+							secondary={'Joined: ' + new Date(user.created).toDateString()}
+						/>
 					</ListItem>
 				</List>
 			</Paper>
-		</>
+		</div>
 	);
 }

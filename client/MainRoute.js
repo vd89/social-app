@@ -13,7 +13,7 @@ import Menu from './core/Menu';
 
 const MainRoute = () => {
 	return (
-		<div>
+		<>
 			<Menu />
 			<Switch>
 				<Route exact path='/' component={Home} />
@@ -23,7 +23,7 @@ const MainRoute = () => {
 				<PrivateRoute path='/user/edit/:userId' component={EditProfile} />
 				<Route path='/user/:userId' component={Profile} />
 			</Switch>
-		</div>
+		</>
 	);
 };
 

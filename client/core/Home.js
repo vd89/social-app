@@ -3,13 +3,12 @@
 import React from 'react';
 import { makeStyles, Card, Typography, CardMedia, CardContent } from '@material-ui/core';
 import connection from '../assets/images/connection.jpg';
-import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
 	card: {
 		maxWidth: 600,
 		margin: 'auto',
-		marginTop: theme.spacing(5),
+		marginTop: theme.spacing(10),
 	},
 	title: {
 		padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,

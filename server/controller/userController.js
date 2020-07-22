@@ -2,9 +2,9 @@
 
 import errHandler from '../helpers/dbErrorHandler';
 import User from '../models/User';
-import { extend } from 'lodash';
-import { IncomingForm } from 'formidable';
-import { readFileSync } from 'fs';
+import { extend, result } from 'lodash';
+import formidable from 'formidable';
+import fs from 'fs';
 import profileImage from './../../client/assets/images/profile-pic.png';
 
 const { getErrorMessage } = errHandler;
@@ -38,7 +38,10 @@ const userList = async (req, res) => {
 // get user By id
 const userByID = async (req, res, next, id) => {
 	try {
-		let user = await User.findById(id);
+		let user = await User.findById(id)
+			.populate('following', '_id name')
+			.populate('follower', '_id name')
+			.exec();
 		if (!user) {
 			return res.status(400).json({
 				error: 'User not found',
@@ -60,27 +63,30 @@ const userRead = (req, res) => {
 };
 
 // Update user
-const userUpdate = async (req, res) => {
-	let form = new IncomingForm();
+const userUpdate = (req, res, next) => {
+	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, async (err, fields, files) => {
+		console.log('err ==>', err);
 		if (err) {
-			return req.status(400).json({ error: 'Photo could not be uploaded' });
+			return res.status(400).json({
+				error: 'Photo could not be uploaded',
+			});
 		}
 		let user = req.profile;
 		user = extend(user, fields);
 		user.updated = Date.now();
 		if (files.photo) {
-			user.photo.data = readFileSync(files.photo.path);
+			user.photo.data = fs.readFileSync(files.photo.path);
 			user.photo.contentType = files.photo.type;
 		}
 		try {
 			await user.save();
 			user.hashedPassword = undefined;
-			return res.status(200).json(user);
+			res.json(user);
 		} catch (err) {
 			return res.status(400).json({
-				error: getErrorMessage(err),
+				error: errorHandler.getErrorMessage(err),
 			});
 		}
 	});
@@ -109,7 +115,71 @@ const photo = (req, res, next) => {
 	next();
 };
 const defaultPhoto = (req, res) => {
-	return res.status(200).sendFile(process.cwd() + profileImage);
+	return res.sendFile(process.cwd() + profileImage);
+};
+
+// Add follower
+const addFollower = async (req, res) => {
+	try {
+		const restult = await User.findByIdAndUpdate(
+			req.body.followId,
+			{ $push: { followers: req.body.userId } },
+			{ new: true }
+		)
+			.populate('following', '_id name')
+			.populate('followers', '_id name')
+			.exec();
+		result.hashedPassword = undefined;
+		return res.status(200).json(result);
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+//Add Following
+const addFollowing = async (req, res, next) => {
+	try {
+		await User.findByIdAndUpdate(req.body.userId, { $push: { following: req.body.followId } });
+		next();
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+
+// Remove follower
+const removeFollower = async (req, res) => {
+	try {
+		const result = await User.findByIdAndUpdate(
+			req.body.unfollowId,
+			{ $pull: { followers: req.body.userId } },
+			{ new: true }
+		)
+			.populate('following', '_id name')
+			.populate('followers', '_id name')
+			.exec();
+
+		result.hashedPassword = undefined;
+		return res.status(200).json(result);
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+
+//Remove following
+const removeFollowing = async (req, res) => {
+	try {
+		await User.findByIdAndUpdate(req.body.userId, { $pull: { following: req.body.unfollowId } });
+		next();
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
 };
 
 export default {
@@ -121,4 +191,8 @@ export default {
 	userUpdate,
 	photo,
 	defaultPhoto,
+	addFollowing,
+	addFollower,
+	removeFollowing,
+	removeFollower,
 };

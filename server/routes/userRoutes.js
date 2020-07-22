@@ -14,6 +14,10 @@ const {
 	userByID,
 	photo,
 	defaultPhoto,
+	addFollowing,
+	addFollower,
+	removeFollowing,
+	removeFollower,
 } = userCtrl;
 const { requiredSignin, hasAuthorization } = authCtrl;
 
@@ -26,11 +30,18 @@ const { requiredSignin, hasAuthorization } = authCtrl;
 router.route('/api/users').get(userList).post(userCreate);
 
 /*
-  @ User Photo
-
+  @ User Profile photo
 */
 router.route('/api/users/photo/:userId').get(photo, defaultPhoto);
 router.route('/api/users/defaultPhoto').get(defaultPhoto);
+
+/*
+  @ Following and follower add and remove
+  @ PUT Route
+*/
+router.route('/api/users/follow').put(requiredSignin, addFollowing, addFollower);
+router.route('/api/users/unfollow').put(requiredSignin, removeFollowing, removeFollower);
+
 /*
   @ User read, update and delete
   @ Route /api/users/:userId

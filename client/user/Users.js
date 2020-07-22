@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Users() {
+const Users = () => {
 	const classes = useStyles();
 
 	const [users, setUsers] = useState([]);
@@ -79,4 +79,6 @@ export default function Users() {
 			</List>
 		</Paper>
 	);
-}
+};
+
+export default Users;

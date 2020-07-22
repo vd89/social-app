@@ -27,6 +27,18 @@ const UserSchema = new Schema({
 		type: String,
 		required: 'Password is required',
 	},
+	following: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+		},
+	],
+	followers: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+		},
+	],
 	created: {
 		type: Date,
 		default: Date.now(),

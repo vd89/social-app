@@ -64,8 +64,8 @@ export default function EditProfile({ match }) {
 		email: '',
 		about: '',
 		photo: '',
-		open: false,
 		error: '',
+		id: '',
 		redirectToProfile: false,
 	});
 	const jwt = auth.isAuthenticate();
@@ -83,7 +83,13 @@ export default function EditProfile({ match }) {
 			if (data && data.error) {
 				setValues({ ...values, error: data.error });
 			} else {
-				setValues({ ...values, name: data.name, email: data.email });
+				setValues({
+					...values,
+					name: data.name,
+					email: data.email,
+					id: data._id,
+					about: data.about,
+				});
 			}
 		});
 		return function cleanup() {
@@ -93,7 +99,8 @@ export default function EditProfile({ match }) {
 
 	const handleChange = (name) => (event) => {
 		const value = name === 'photo' ? event.target.files[0] : event.target.value;
-		setValues({ ...values, [name]: event.target.value });
+
+		setValues({ ...values, [name]: value });
 	};
 
 	const clickSubmit = () => {
@@ -103,7 +110,6 @@ export default function EditProfile({ match }) {
 		values.password && userData.append('password', values.password);
 		values.about && userData.append('about', values.about);
 		values.photo && userData.append('photo', values.photo);
-
 		update(
 			{
 				userId: match.params.userId,
@@ -116,100 +122,99 @@ export default function EditProfile({ match }) {
 			if (data && data.error) {
 				setValues({ ...values, error: data.error });
 			} else {
-				setValues({ ...values, userId: data._id, redirectToProfile: true });
+				setValues({ ...values, redirectToProfile: true });
 			}
 		});
 	};
-	if (values.redirectToProfile) {
-		return <Redirect to={'/user/' + values.userId} />;
-	}
 	const photoUrl = values.id
 		? `/api/users/photo/${values.id}?${new Date().getTime()}`
 		: '/api/users/defaultphoto';
 
+	if (values.redirectToProfile) {
+		return <Redirect to={'/user/' + values.userId} />;
+	}
+
 	return (
-		<>
-			<Card className={classes.card}>
-				<CardContent>
-					<Typography variant='h5' className={classes.title}>
-						Edit Profile
-					</Typography>
-					<Avatar src={photoUrl} className={classes.bigAvatar} /> <br />
-					<input
-						accept='image/*/'
-						className={classes.input}
-						id='icon-button-file'
-						type='file'
-						onChange={handleChange('photo')}
-					/>
-					<label htmlFor='icon-button-file'>
-						<Button variant='contained' color='default' component='span'>
-							Upload
-							<Publish />
-						</Button>
-					</label>
-					<span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
-					<br />
-					<TextField
-						id='name'
-						value={values.name}
-						label='Name'
-						className={classes.textField}
-						type='string'
-						onChange={handleChange('name')}
-						margin='normal'
-					/>
-					<br />
-					<TextField
-						id='email'
-						value={values.email}
-						label='Email'
-						className={classes.textField}
-						type='email'
-						onChange={handleChange('email')}
-						margin='normal'
-					/>
-					<br />
-					<TextField
-						id='password'
-						value={values.password}
-						label='Password'
-						className={classes.textField}
-						type='password'
-						onChange={handleChange('password')}
-						margin='normal'
-					/>
-					<br />
-					<TextField
-						id='multiline-flexible'
-						row='2'
-						value={values.about}
-						label='About'
-						className={classes.textField}
-						type='about'
-						onChange={handleChange('about')}
-						margin='normal'
-					/>
-					<br />
-					{values.error && (
-						<Typography component='p' color='error'>
-							<Icon color='error' className={classes.error}>
-								error
-							</Icon>
-							{values.error}
-						</Typography>
-					)}
-				</CardContent>
-				<CardActions>
-					<Button
-						color='primary'
-						variant='contained'
-						onClick={clickSubmit}
-						className={classes.submit}>
-						Submit
+		<Card className={classes.card}>
+			<CardContent>
+				<Typography variant='h5' className={classes.title}>
+					Edit Profile
+				</Typography>
+				<Avatar src={photoUrl} className={classes.bigAvatar} /> <br />
+				<input
+					accept='image/*'
+					onChange={handleChange('photo')}
+					className={classes.input}
+					id='icon-button-file'
+					type='file'
+				/>
+				<label htmlFor='icon-button-file'>
+					<Button variant='contained' color='default' component='span'>
+						Upload
+						<Publish />
 					</Button>
-				</CardActions>
-			</Card>
-		</>
+				</label>
+				<span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
+				<br />
+				<TextField
+					id='name'
+					value={values.name}
+					label='Name'
+					className={classes.textField}
+					type='string'
+					onChange={handleChange('name')}
+					margin='normal'
+				/>
+				<br />
+				<TextField
+					id='multiline-flexible'
+					label='About'
+					multiline
+					rows='2'
+					value={values.about}
+					onChange={handleChange('about')}
+					className={classes.textField}
+					margin='normal'
+				/>
+				<br />
+				<TextField
+					id='email'
+					value={values.email}
+					label='Email'
+					className={classes.textField}
+					type='email'
+					onChange={handleChange('email')}
+					margin='normal'
+				/>
+				<br />
+				<TextField
+					id='password'
+					value={values.password}
+					label='Password'
+					className={classes.textField}
+					type='password'
+					onChange={handleChange('password')}
+					margin='normal'
+				/>
+				<br />
+				{values.error && (
+					<Typography component='p' color='error'>
+						<Icon color='error' className={classes.error}>
+							error
+						</Icon>
+						{values.error}
+					</Typography>
+				)}
+			</CardContent>
+			<CardActions>
+				<Button
+					color='primary'
+					variant='contained'
+					onClick={clickSubmit}
+					className={classes.submit}>
+					Submit
+				</Button>
+			</CardActions>
+		</Card>
 	);
 }
