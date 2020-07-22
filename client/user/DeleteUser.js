@@ -3,7 +3,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import auth from '../auth/authHelper';
-import { IconButton, Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core';
+import {
+	IconButton,
+	Dialog,
+	DialogTitle,
+	DialogActions,
+	Button,
+	DialogContent,
+	DialogContentText,
+} from '@material-ui/core';
 import Delete from '@material-ui/icons/Delete';
 import { remove } from './userApi';
 import { Redirect } from 'react-router';

@@ -9,10 +9,12 @@ import Signin from './auth/Signin';
 import Profile from './user/Profile';
 import PrivateRoute from './auth/PrivateRoute';
 import EditProfile from './user/EditProfile';
+import Menu from './core/Menu';
 
 const MainRoute = () => {
 	return (
 		<div>
+			<Menu />
 			<Switch>
 				<Route exact path='/' component={Home} />
 				<Route exact path='/users' component={Users} />

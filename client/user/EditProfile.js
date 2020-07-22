@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	makeStyles,
 	Card,
@@ -53,6 +53,7 @@ export default function EditProfile({ match }) {
 		redirectToProfile: false,
 	});
 	const jwt = auth.isAuthenticate();
+
 	useEffect(() => {
 		const abortController = new AbortController();
 		const signal = abortController.signal;
@@ -74,31 +75,35 @@ export default function EditProfile({ match }) {
 		};
 	}, [match.params.userId]);
 
-  const handleChange = name => event => {
-    setValues({...values, [name]:event.target.value})
-  }
+	const handleChange = (name) => (event) => {
+		setValues({ ...values, [name]: event.target.value });
+	};
 
-  const clickSubmit = () => {
-    const user = {
-      name= values.name || undefined,
-      email = values.email || undefined,
-      password = values.password || undefined
-    }
-    update({
-      userId: match.params.userId
-    }, {
-      t:jwt.token
-    }, user).then(data => {
-      if (data && data.error) {
-        setValues({...values,error:data.error})
-      } else {
-        setValues({...values,userId: data._id, redirectToProfile:true})
-      }
-    })
-  }
-  if (values.redirectToProfile) {
-    return (<Redirect to={'/user/' + values.userId}/>)
-  }
+	const clickSubmit = () => {
+		const user = {
+			name: values.name || undefined,
+			email: values.email || undefined,
+			password: values.password || undefined,
+		};
+		update(
+			{
+				userId: match.params.userId,
+			},
+			{
+				t: jwt.token,
+			},
+			user
+		).then((data) => {
+			if (data && data.error) {
+				setValues({ ...values, error: data.error });
+			} else {
+				setValues({ ...values, userId: data._id, redirectToProfile: true });
+			}
+		});
+	};
+	if (values.redirectToProfile) {
+		return <Redirect to={'/user/' + values.userId} />;
+	}
 	return (
 		<>
 			<Card>

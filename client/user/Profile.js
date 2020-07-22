@@ -68,7 +68,7 @@ export default function Profile({ match }) {
 	return (
 		<>
 			<Paper className={classes.root} elevation={4}>
-				<Typography className={classes.title} variant='h6'>
+				<Typography variant='h6' className={classes.title}>
 					Profile
 				</Typography>
 				<List dense>
@@ -78,10 +78,10 @@ export default function Profile({ match }) {
 								<Person />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText primary={user.name} secondary={user.email} />
-						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == user.id && (
+						<ListItemText primary={user.name} secondary={user.email} />{' '}
+						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == user._id && (
 							<ListItemSecondaryAction>
-								<Link to={'/user/edit' + user._id}>
+								<Link to={'/user/edit/' + user._id}>
 									<IconButton aria-label='Edit' color='primary'>
 										<Edit />
 									</IconButton>
