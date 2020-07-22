@@ -58,7 +58,7 @@ export default function Users() {
 			<List dense>
 				{users.map((item, i) => {
 					return (
-						<Link to={'/user/' + item._id} key={i}>
+						<Link to={'/user/' + item._id} key={i} style={{ textDecoration: 'none' }}>
 							<ListItem button>
 								<ListItemAvatar>
 									<Avatar>

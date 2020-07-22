@@ -23,22 +23,22 @@ const Menu = withRouter(({ history }) => (
 					<Home />
 				</IconButton>
 			</Link>
-			<Link to='/users'>
+			<Link to='/users' style={{ textDecoration: 'none' }}>
 				<Button style={isActive(history, '/users')}>Users</Button>
 			</Link>
 			{!auth.isAuthenticate() && (
 				<>
-					<Link to='/signup'>
+					<Link to='/signup' style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/signup')}>Sign Up</Button>
 					</Link>
-					<Link to='/signin'>
+					<Link to='/signin' style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/signin')}>Sign In</Button>
 					</Link>
 				</>
 			)}
 			{auth.isAuthenticate() && (
 				<>
-					<Link to={'/user/' + auth.isAuthenticate().user._id}>
+					<Link to={'/user/' + auth.isAuthenticate().user._id} style={{ textDecoration: 'none' }}>
 						<Button style={isActive(history, '/user/' + auth.isAuthenticate().user._id)}>
 							My Profile
 						</Button>
