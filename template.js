@@ -1,6 +1,6 @@
 /** @format */
 
-export default () => {
+export default ({ markup, css }) => {
 	return `
     <!DOCTYPE html>
     <html lang="en">
@@ -13,7 +13,8 @@ export default () => {
       <title>MERN social App</title>
     </head>
     <body>
-      <div id="root"></div>
+      <div id="root">${markup}</div>
+      <style id="jss-server-side">${css}</style>
       <script src="/dist/bundle.js" type="text/javascript"></script>
     </body>
     </html>

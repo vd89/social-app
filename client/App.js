@@ -9,6 +9,12 @@ import theme from './theme';
 import MainRoute from './MainRoute';
 
 const App = () => {
+	React.useEffect(() => {
+		const jssStyles = document.querySelector('#jss-server-side');
+		if (jssStyles) {
+			jssStyles.parentElement.removeChild(jssStyles);
+		}
+	}, []);
 	return (
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
