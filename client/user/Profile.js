@@ -33,6 +33,11 @@ const userStyle = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		color: theme.palette.protectedTitle,
 	},
+	bigAvatar: {
+		width: 60,
+		height: 60,
+		margin: 10,
+	},
 }));
 
 export default function Profile({ match }) {
@@ -62,6 +67,10 @@ export default function Profile({ match }) {
 		};
 	}, [match.params.userId]);
 
+	const photoUrl = values.user._id
+		? `/api/users/photo/${values.user._id}? ${new Date().getTime()}`
+		: '/api/users/defaultphoto';
+
 	if (redirectToSignin) {
 		return <Redirect to='/signin' />;
 	}
@@ -74,9 +83,7 @@ export default function Profile({ match }) {
 				<List dense>
 					<ListItem>
 						<ListItemAvatar>
-							<Avatar>
-								<Person />
-							</Avatar>
+							<Avatar src={photoUrl} className={classes.bigAvatar} />
 						</ListItemAvatar>
 						<ListItemText primary={user.name} secondary={user.email} />{' '}
 						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == user._id && (
@@ -92,6 +99,7 @@ export default function Profile({ match }) {
 					</ListItem>
 					<Divider />
 					<ListItem>
+						<ListItemText primary={user.abort} />
 						<ListItemText primary={'Joined: ' + new Date(user.created).toDateString()} />
 					</ListItem>
 				</List>

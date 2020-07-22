@@ -5,8 +5,18 @@ import userCtrl from '../controller/userController';
 import authCtrl from '../controller/authController';
 
 const router = express.Router();
-const { userList, userCreate, userRead, userUpdate, userRemove, userByID } = userCtrl;
+const {
+	userList,
+	userCreate,
+	userRead,
+	userUpdate,
+	userRemove,
+	userByID,
+	photo,
+	defaultPhoto,
+} = userCtrl;
 const { requiredSignin, hasAuthorization } = authCtrl;
+
 /*
   @ User list and create user
   @ Router /api/users/
@@ -15,6 +25,12 @@ const { requiredSignin, hasAuthorization } = authCtrl;
 
 router.route('/api/users').get(userList).post(userCreate);
 
+/*
+  @ User Photo
+
+*/
+router.route('/api/users/photo/:userId').get(photo, defaultPhoto);
+router.route('/api/users/defaultPhoto').get(defaultPhoto);
 /*
   @ User read, update and delete
   @ Route /api/users/:userId

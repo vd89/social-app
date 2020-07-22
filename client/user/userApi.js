@@ -55,7 +55,6 @@ const update = async (params, credentials, users) => {
 			method: 'PUT',
 			headers: {
 				Accept: 'application/json',
-				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + credentials.t,
 			},
 			body: JSON.stringify(users),

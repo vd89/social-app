@@ -15,6 +15,14 @@ const UserSchema = new Schema({
 		unique: 'Email already Exists',
 		required: 'Email is required',
 	},
+	about: {
+		type: String,
+		trim: true,
+	},
+	photo: {
+		data: Buffer,
+		contentType: String,
+	},
 	hashedPassword: {
 		type: String,
 		required: 'Password is required',

@@ -10,7 +10,9 @@ import {
 	Icon,
 	CardActions,
 	Button,
+	Avatar,
 } from '@material-ui/core';
+import { Publish } from '@material-ui/icons';
 import auth from '../auth/authHelper';
 import { update, read } from './userApi';
 import { Redirect } from 'react-router';
@@ -40,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
 		margin: 'auto',
 		marginBottom: theme.spacing(2),
 	},
+	bigAvatar: {
+		width: 60,
+		height: 60,
+		margin: 'auto',
+	},
+	input: {
+		display: 'none',
+	},
+	fileName: {
+		marginLeft: '10px',
+	},
 }));
 
 export default function EditProfile({ match }) {
@@ -49,6 +62,8 @@ export default function EditProfile({ match }) {
 		name: '',
 		password: '',
 		email: '',
+		about: '',
+		photo: '',
 		open: false,
 		error: '',
 		redirectToProfile: false,
@@ -77,15 +92,18 @@ export default function EditProfile({ match }) {
 	}, [match.params.userId]);
 
 	const handleChange = (name) => (event) => {
+		const value = name === 'photo' ? event.target.files[0] : event.target.value;
 		setValues({ ...values, [name]: event.target.value });
 	};
 
 	const clickSubmit = () => {
-		const user = {
-			name: values.name || undefined,
-			email: values.email || undefined,
-			password: values.password || undefined,
-		};
+		const userData = new FormData();
+		values.name && userData.append('name', values.name);
+		values.email && userData.append('email', values.email);
+		values.password && userData.append('password', values.password);
+		values.about && userData.append('about', values.about);
+		values.photo && userData.append('photo', values.photo);
+
 		update(
 			{
 				userId: match.params.userId,
@@ -93,7 +111,7 @@ export default function EditProfile({ match }) {
 			{
 				t: jwt.token,
 			},
-			user
+			userData
 		).then((data) => {
 			if (data && data.error) {
 				setValues({ ...values, error: data.error });
@@ -105,6 +123,10 @@ export default function EditProfile({ match }) {
 	if (values.redirectToProfile) {
 		return <Redirect to={'/user/' + values.userId} />;
 	}
+	const photoUrl = values.id
+		? `/api/users/photo/${values.id}?${new Date().getTime()}`
+		: '/api/users/defaultphoto';
+
 	return (
 		<>
 			<Card className={classes.card}>
@@ -112,6 +134,22 @@ export default function EditProfile({ match }) {
 					<Typography variant='h5' className={classes.title}>
 						Edit Profile
 					</Typography>
+					<Avatar src={photoUrl} className={classes.bigAvatar} /> <br />
+					<input
+						accept='image/*/'
+						className={classes.input}
+						id='icon-button-file'
+						type='file'
+						onChange={handleChange('photo')}
+					/>
+					<label htmlFor='icon-button-file'>
+						<Button variant='contained' color='default' component='span'>
+							Upload
+							<Publish />
+						</Button>
+					</label>
+					<span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
+					<br />
 					<TextField
 						id='name'
 						value={values.name}
@@ -139,6 +177,17 @@ export default function EditProfile({ match }) {
 						className={classes.textField}
 						type='password'
 						onChange={handleChange('password')}
+						margin='normal'
+					/>
+					<br />
+					<TextField
+						id='multiline-flexible'
+						row='2'
+						value={values.about}
+						label='About'
+						className={classes.textField}
+						type='about'
+						onChange={handleChange('about')}
 						margin='normal'
 					/>
 					<br />

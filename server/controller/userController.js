@@ -3,6 +3,9 @@
 import errHandler from '../helpers/dbErrorHandler';
 import User from '../models/User';
 import { extend } from 'lodash';
+import { IncomingForm } from 'formidable';
+import { readFileSync } from 'fs';
+import profileImage from './../../client/assets/images/profile-pic.png';
 
 const { getErrorMessage } = errHandler;
 // create new user
@@ -58,18 +61,29 @@ const userRead = (req, res) => {
 
 // Update user
 const userUpdate = async (req, res) => {
-	try {
+	let form = new IncomingForm();
+	form.keepExtensions = true;
+	form.parse(req, async (err, fields, files) => {
+		if (err) {
+			return req.status(400).json({ error: 'Photo could not be uploaded' });
+		}
 		let user = req.profile;
-		user = extend(user, req.body);
+		user = extend(user, fields);
 		user.updated = Date.now();
-		await user.save();
-		user.hashedPassword = undefined;
-		return res.status(200).json(user);
-	} catch (err) {
-		return res.status(400).json({
-			error: getErrorMessage(err),
-		});
-	}
+		if (files.photo) {
+			user.photo.data = readFileSync(files.photo.path);
+			user.photo.contentType = files.photo.type;
+		}
+		try {
+			await user.save();
+			user.hashedPassword = undefined;
+			return res.status(200).json(user);
+		} catch (err) {
+			return res.status(400).json({
+				error: getErrorMessage(err),
+			});
+		}
+	});
 };
 
 // Delete user
@@ -86,4 +100,25 @@ const userRemove = async (req, res) => {
 	}
 };
 
-export default { userList, userByID, userCreate, userRead, userRemove, userUpdate };
+// Photo
+const photo = (req, res, next) => {
+	if (req.profile.photo.data) {
+		res.set('Content-Type', req.profile.photo.contentType);
+		return res.send(req.profile.photo.data);
+	}
+	next();
+};
+const defaultPhoto = (req, res) => {
+	return res.status(200).sendFile(process.cwd() + profileImage);
+};
+
+export default {
+	userList,
+	userByID,
+	userCreate,
+	userRead,
+	userRemove,
+	userUpdate,
+	photo,
+	defaultPhoto,
+};
