@@ -22,16 +22,18 @@ const useStyle = makeStyles((theme) => ({
 export default function Home() {
 	const classes = useStyle();
 	return (
-		<Card className={classes.card}>
-			<Typography variant='h5' className={classes.title}>
-				Home Page
-			</Typography>
-			<CardMedia className={classes.media} image={connection} title='Connection'></CardMedia>
-			<CardContent>
-				<Typography variant='body1' component='p'>
-					Welcome to Social media App
+		<>
+			<Card className={classes.card}>
+				<Typography variant='h5' className={classes.title}>
+					Home Page
 				</Typography>
-			</CardContent>
-		</Card>
+				<CardMedia className={classes.media} image={connection} title='Connection'></CardMedia>
+				<CardContent>
+					<Typography variant='body1' component='p'>
+						Welcome to Social media App
+					</Typography>
+				</CardContent>
+			</Card>
+		</>
 	);
 }

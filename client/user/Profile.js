@@ -21,6 +21,7 @@ import auth from '../auth/authHelper';
 import { read } from './userApi';
 import { Link } from 'react-router-dom';
 import DeleteUser from './DeleteUser';
+import FollowProfileButton from './FollowProfileButton';
 
 const userStyle = makeStyles((theme) => ({
 	root: theme.mixins.gutters({
@@ -58,9 +59,10 @@ export default function Profile({ match }) {
 			{
 				userId: match.params.userId,
 			},
-			{ t: jwt.token, signal }
+			{ t: jwt.token },
+			signal
 		).then((data) => {
-			console.log('fetched data ', data);
+			// console.log('fetched data ', data);
 			if (data && data.error) {
 				setValues({ ...values, error: data.error, redirectToSignin: true });
 			} else {
@@ -74,20 +76,36 @@ export default function Profile({ match }) {
 	}, [match.params.userId]);
 
 	const checkFollow = (user) => {
-		const match =
-			user &&
-			user.followers.some((follower) => {
-				return follower._id == jwt.user._id;
-			});
+		const match = user.followers.some((follower) => {
+			return follower._id == jwt.user._id;
+		});
 		return match;
+	};
+
+	const clickFollowButton = (callApi) => {
+		callApi(
+			{
+				userId: jwt.user._id,
+			},
+			{
+				t: jwt.token,
+			},
+			values.user._id
+		).then((data) => {
+			if (data.error) {
+				setValues({ ...values, error: data.error });
+			} else {
+				setValues({ ...values, user: data, following: !values.following });
+			}
+		});
 	};
 	const { user, redirectToSignin } = values;
 	// console.log('values  ==>', values, 'user  ==>', user);
-	const photoUrl = user._id
-		? `/api/users/photo/${user._id}? ${new Date().getTime()}`
+	const photoUrl = values.user._id
+		? `/api/users/photo/${values.user._id}? ${new Date().getTime()}`
 		: '/api/users/defaultphoto';
 
-	if (redirectToSignin) {
+	if (values.redirectToSignin) {
 		return <Redirect to='/signin' />;
 	}
 	return (
@@ -101,23 +119,25 @@ export default function Profile({ match }) {
 						<ListItemAvatar>
 							<Avatar src={photoUrl} className={classes.bigAvatar} />
 						</ListItemAvatar>
-						<ListItemText primary={user.name} secondary={user.email} />{' '}
-						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == user._id && (
+						<ListItemText primary={values.user.name} secondary={values.user.email} />{' '}
+						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == values.user._id ? (
 							<ListItemSecondaryAction>
-								<Link to={'/user/edit/' + user._id}>
+								<Link to={'/user/edit/' + values.user._id}>
 									<IconButton aria-label='Edit' color='primary'>
 										<Edit />
 									</IconButton>
 								</Link>
-								<DeleteUser userId={user._id} />
+								<DeleteUser userId={values.user._id} />
 							</ListItemSecondaryAction>
+						) : (
+							<FollowProfileButton following={values.following} onButtonClick={clickFollowButton} />
 						)}
 					</ListItem>
 					<Divider />
 					<ListItem>
 						<ListItemText
-							primary={user.about}
-							secondary={'Joined: ' + new Date(user.created).toDateString()}
+							primary={values.user.about}
+							secondary={'Joined: ' + new Date(values.user.created).toDateString()}
 						/>
 					</ListItem>
 				</List>

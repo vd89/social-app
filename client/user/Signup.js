@@ -75,7 +75,7 @@ export default function Signup() {
 	};
 
 	return (
-		<div>
+		<>
 			<Card className={classes.card}>
 				<CardContent>
 					<Typography variant='h6' className={classes.title}>
@@ -142,6 +142,6 @@ export default function Signup() {
 					</Link>
 				</DialogActions>
 			</Dialog>
-		</div>
+		</>
 	);
 }
