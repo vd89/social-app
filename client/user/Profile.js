@@ -27,7 +27,7 @@ const userStyle = makeStyles((theme) => ({
 		maxWidth: 600,
 		margin: 'auto',
 		padding: theme.spacing(3),
-		marginTop: theme.spacing(5),
+		marginTop: theme.spacing(10),
 	}),
 	title: {
 		marginTop: theme.spacing(3),

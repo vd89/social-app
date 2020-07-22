@@ -18,9 +18,10 @@ import { Redirect } from 'react-router';
 const useStyles = makeStyles((theme) => ({
 	card: {
 		maxWidth: 600,
+
 		margin: 'auto',
 		textAlign: 'center',
-		marginTop: theme.spacing(5),
+		marginTop: theme.spacing(10),
 		paddingBottom: theme.spacing(2),
 	},
 	title: {
@@ -106,9 +107,11 @@ export default function EditProfile({ match }) {
 	}
 	return (
 		<>
-			<Card>
+			<Card className={classes.card}>
 				<CardContent>
-					<Typography>Edit Profile</Typography>
+					<Typography variant='h5' className={classes.title}>
+						Edit Profile
+					</Typography>
 					<TextField
 						id='name'
 						value={values.name}
@@ -118,6 +121,7 @@ export default function EditProfile({ match }) {
 						onChange={handleChange('name')}
 						margin='normal'
 					/>
+					<br />
 					<TextField
 						id='email'
 						value={values.email}
@@ -127,6 +131,7 @@ export default function EditProfile({ match }) {
 						onChange={handleChange('email')}
 						margin='normal'
 					/>
+					<br />
 					<TextField
 						id='password'
 						value={values.password}
