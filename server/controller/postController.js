@@ -1,4 +1,5 @@
 /** @format */
+
 import formiable from 'formidable';
 import { getErrorMessage } from '../helpers';
 import Post from '../models/Post';
@@ -57,4 +58,24 @@ const createPost = (req, res, next) => {
 		}
 	});
 };
-export default { listNewsFeed, postByID, createPost };
+
+const photo = (req, res, next) => {
+	res.set('Content-Type', req.post.photo.contentType);
+	return res.send(req.post.photo.data);
+};
+
+const listByUser = async (req, res) => {
+	try {
+		const posts = await Post.find({ postedBy: req.pofile._id })
+			.populate('comments.postedBy', '_id name')
+			.populate('postedBy', '_id name')
+			.sort('-created')
+			.exec();
+		return res.status(200).json(posts);
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+export default { listNewsFeed, postByID, createPost, photo, listByUser };
