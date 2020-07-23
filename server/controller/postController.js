@@ -1,7 +1,8 @@
 /** @format */
-
+import formiable from 'formidable';
 import { getErrorMessage } from '../helpers';
 import Post from '../models/Post';
+import { readFileSync } from 'fs';
 
 const listNewsFeed = async (req, res) => {
 	const following = req.profile.following;
@@ -32,4 +33,28 @@ const postByID = async (req, res, next, id) => {
 		return res.status(400).json({ error: getErrorMessage(err) });
 	}
 };
-export default { listNewsFeed, postByID };
+
+const createPost = (req, res, next) => {
+	const form = new formiable.IncomingForm();
+	form.keepExtensions = true;
+	form.parse(req, async (err, fields, files) => {
+		if (err) {
+			return res.status(400).json({ error: 'Image could not be uploaded' });
+		}
+		const post = new Post(fields);
+		post.postedBy = req.profile;
+		if (files.photo) {
+			post.photo.data = readFileSync(files.photo.path);
+			post.photo.contentType = files.photo.type;
+		}
+		try {
+			const result = await post.save();
+			return res.status(200).json(result);
+		} catch (err) {
+			return res.status(400).json({
+				error: getErrorMessage(err),
+			});
+		}
+	});
+};
+export default { listNewsFeed, postByID, createPost };

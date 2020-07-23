@@ -7,14 +7,17 @@ import postCtrl from '../controller/postController';
 
 const { requiredSignin } = authCtrl;
 const { userByID } = userCtrl;
-const { listNewsFeed, postByID } = postCtrl;
+const { listNewsFeed, postByID, createPost } = postCtrl;
 
 const router = Router();
 
-// UserId from params
+// UserId and postID
 router.param('userId', userByID);
 router.param('postId', postByID);
+
 // List news Feed
 router.get('/api/posts/feed/:userId', requiredSignin, listNewsFeed);
 
+// Create a post
+router.post('/api/posts/new/:userId', requiredSignin, createPost);
 export default router;
