@@ -17,4 +17,19 @@ const listNewsFeed = async (req, res) => {
 		return res.status(400).json({ error: getErrorMessage(err) });
 	}
 };
-export default { listNewsFeed };
+
+const postByID = async (req, res, next, id) => {
+	try {
+		const post = await (await Post.findById(id).populate('postedBy', '_id name')).exec();
+		if (!post) {
+			return res.status(400).json({
+				error: 'Post Not Found',
+			});
+		}
+		req.post = post;
+		next();
+	} catch (err) {
+		return res.status(400).json({ error: getErrorMessage(err) });
+	}
+};
+export default { listNewsFeed, postByID };

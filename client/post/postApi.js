@@ -16,3 +16,5 @@ const listNewsFeed = async (params, credentials, signal) => {
 		console.log(err);
 	}
 };
+
+export default { listNewsFeed };
