@@ -18,6 +18,7 @@ const {
 	addFollower,
 	removeFollowing,
 	removeFollower,
+	findPeople,
 } = userCtrl;
 const { requiredSignin, hasAuthorization } = authCtrl;
 
@@ -41,6 +42,12 @@ router.route('/api/users/defaultPhoto').get(defaultPhoto);
 */
 router.route('/api/users/follow').put(requiredSignin, addFollowing, addFollower);
 router.route('/api/users/unfollow').put(requiredSignin, removeFollowing, removeFollower);
+
+/*
+	@ find people route
+	@ GET Route
+*/
+router.route('/api/users/findpeople/:userId').get(requiredSignin, findPeople);
 
 /*
   @ User read, update and delete

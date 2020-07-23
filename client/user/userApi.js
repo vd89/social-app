@@ -1,6 +1,7 @@
 /** @format */
 
 import { CreditCard } from '@material-ui/icons';
+import { response } from 'express';
 
 // register user
 const create = async (user) => {
@@ -119,4 +120,22 @@ const unfollow = async (params, credentials, unfollowId) => {
 	}
 };
 
-export { create, list, read, update, remove, follow, unfollow };
+//Find People
+const findPeople = async (params, credentials, signal) => {
+	try {
+		const response = await fetch('/api/users/findpeople/' + params.userId, {
+			method: 'GET',
+			signal: signal,
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + credentials.t,
+			},
+		});
+		return await response.json();
+	} catch (err) {
+		console.log('err :>> ', err);
+	}
+};
+
+export { create, list, read, update, remove, follow, unfollow, findPeople };
