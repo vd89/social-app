@@ -11,6 +11,7 @@ import path from 'path';
 import Template from '../template';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import postRoutes from './routes/postRoutes';
 import devBundle from './devBundle';
 
 // Modules for server side rendering
@@ -20,6 +21,7 @@ import MainRoute from '../client/MainRoute';
 import { StaticRouter } from 'react-router';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core';
 import theme from './../client/theme';
+
 
 const app = express();
 const CURRENT_WORKING_DIR = process.cwd();
@@ -41,6 +43,7 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
 // Routes
 app.use('/', userRoutes);
 app.use('/', authRoutes);
+app.use('/', postRoutes);
 
 app.use('*', (req, res) => {
 	const sheet = new ServerStyleSheets();
