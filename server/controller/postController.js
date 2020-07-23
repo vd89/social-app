@@ -148,6 +148,29 @@ const uncomment = async (req, res) => {
 		});
 	}
 };
+
+const isPoster = (req, res, next) => {
+	let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
+	if (!isPoster) {
+		return res.status('403').json({
+			error: 'User is not authorized',
+		});
+	}
+	next();
+};
+
+const remove = async (req, res) => {
+	let post = req.post;
+	try {
+		let deletedPost = await post.remove();
+		return res.json(deletedPost);
+	} catch (err) {
+		return res.status(400).json({
+			error: errorHandler.getErrorMessage(err),
+		});
+	}
+};
+
 export default {
 	listNewsFeed,
 	postByID,
@@ -158,4 +181,6 @@ export default {
 	unlike,
 	comment,
 	uncomment,
+	isPoster,
+	remove,
 };

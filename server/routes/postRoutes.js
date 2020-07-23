@@ -17,6 +17,8 @@ const {
 	unlike,
 	comment,
 	uncomment,
+	isPoster,
+	remove,
 } = postCtrl;
 
 const router = Router();
@@ -44,5 +46,8 @@ router.put('/api/posts/unlike', requiredSignin, unlike);
 // Put Comment and unComment post
 router.put('/api/posts/comment', requiredSignin, comment);
 router.put('/api/posts/uncomment', requiredSignin, uncomment);
+
+// Delete the post
+router.delete('/api/posts/:postId', requiredSignin, isPoster, remove);
 
 export default router;
