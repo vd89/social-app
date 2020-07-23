@@ -7,7 +7,17 @@ import postCtrl from '../controller/postController';
 
 const { requiredSignin } = authCtrl;
 const { userByID } = userCtrl;
-const { listNewsFeed, postByID, createPost, photo, listByUser, like, unlike } = postCtrl;
+const {
+	listNewsFeed,
+	postByID,
+	createPost,
+	photo,
+	listByUser,
+	like,
+	unlike,
+	comment,
+	uncomment,
+} = postCtrl;
 
 const router = Router();
 
@@ -30,5 +40,9 @@ router.get('/api/posts/by/:userId', requiredSignin, listByUser);
 // Put  like and unlike post
 router.put('/api/posts/like', requiredSignin, like);
 router.put('/api/posts/unlike', requiredSignin, unlike);
+
+// Put Comment and unComment post
+router.put('/api/posts/comment', requiredSignin, comment);
+router.put('/api/posts/uncomment', requiredSignin, uncomment);
 
 export default router;
