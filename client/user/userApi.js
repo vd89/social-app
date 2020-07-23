@@ -1,8 +1,5 @@
 /** @format */
 
-import { CreditCard } from '@material-ui/icons';
-import { response } from 'express';
-
 // register user
 const create = async (user) => {
 	try {
@@ -29,7 +26,7 @@ const list = async (signal) => {
 		});
 		return await response.json();
 	} catch (err) {
-		console.log(err);
+		console.log('err :>> ', err);
 	}
 };
 

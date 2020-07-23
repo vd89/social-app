@@ -65,4 +65,5 @@ router
   @ PARAM
 */
 router.param('userId', userByID);
+
 export default router;

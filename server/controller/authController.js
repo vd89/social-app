@@ -1,12 +1,13 @@
 /** @format */
 import jsonwebtoken from 'jsonwebtoken';
+import jwt from 'express-jwt';
 
 import User from '../models/User';
 import config from '../../config/config';
-import jwt from 'express-jwt';
 
 const { sign } = jsonwebtoken;
 const { jwtSecret } = config;
+
 // user Auth login route
 const signin = async (req, res) => {
 	try {
