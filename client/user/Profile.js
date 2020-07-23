@@ -22,6 +22,8 @@ import { read } from './userApi';
 import { Link } from 'react-router-dom';
 import DeleteUser from './DeleteUser';
 import FollowProfileButton from './FollowProfileButton';
+import FollowGrid from './FollowGrid';
+import { props } from 'bluebird';
 
 const userStyle = makeStyles((theme) => ({
 	root: theme.mixins.gutters({
@@ -141,6 +143,8 @@ export default function Profile({ match }) {
 						/>
 					</ListItem>
 				</List>
+				<FollowGrid people={values.user.followers} />
+				{/* <FollowGrid people={values.user.following} /> */}
 			</Paper>
 		</div>
 	);
