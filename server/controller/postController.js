@@ -78,4 +78,33 @@ const listByUser = async (req, res) => {
 		});
 	}
 };
-export default { listNewsFeed, postByID, createPost, photo, listByUser };
+
+const like = async (req, res) => {
+	try {
+		let result = await Post.findByIdAndUpdate(
+			req.body.postId,
+			{ $push: { likes: req.body.userId } },
+			{ new: true }
+		);
+		return res.status(200).json(result);
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+const unlike = async (req, res) => {
+	try {
+		let result = await Post.findByIdAndUpdate(
+			req.body.postId,
+			{ $push: { unlikes: req.body.userId } },
+			{ new: true }
+		);
+		return res.status(200).json(result);
+	} catch (err) {
+		return res.status(400).json({
+			error: getErrorMessage(err),
+		});
+	}
+};
+export default { listNewsFeed, postByID, createPost, photo, listByUser, like, unlike };
