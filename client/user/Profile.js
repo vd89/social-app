@@ -14,7 +14,7 @@ import {
 	ListItemSecondaryAction,
 	IconButton,
 } from '@material-ui/core';
-import { Person, Edit } from '@material-ui/icons';
+import { Person, Edit, SettingsInputCompositeSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 
 import auth from '../auth/authHelper';
@@ -24,6 +24,7 @@ import DeleteUser from './DeleteUser';
 import FollowProfileButton from './FollowProfileButton';
 import FollowGrid from './FollowGrid';
 import { props } from 'bluebird';
+import ProfileTabs from './ProfileTabs';
 
 const userStyle = makeStyles((theme) => ({
 	root: theme.mixins.gutters({
@@ -51,6 +52,7 @@ export default function Profile({ match }) {
 		redirectToSignin: false,
 		following: false,
 	});
+	const [posts, setPosts] = useState([]);
 	const jwt = auth.isAuthenticate();
 
 	useEffect(() => {
@@ -101,8 +103,12 @@ export default function Profile({ match }) {
 			}
 		});
 	};
-	const { user, redirectToSignin } = values;
-	// console.log('values  ==>', values, 'user  ==>', user);
+	const removePost = (post) => {
+		const updatedPosts = posts;
+		const index = updatedPosts.indexOf(post);
+		updatedPosts.splice(index, 1);
+		setPosts(updatedPosts);
+	};
 	const photoUrl = values.user._id
 		? `/api/users/photo/${values.user._id}? ${new Date().getTime()}`
 		: '/api/users/defaultphoto';
@@ -111,41 +117,38 @@ export default function Profile({ match }) {
 		return <Redirect to='/signin' />;
 	}
 	return (
-		<div>
-			<Paper className={classes.root} elevation={4}>
-				<Typography variant='h6' className={classes.title}>
-					Profile
-				</Typography>
-				<List dense>
-					<ListItem>
-						<ListItemAvatar>
-							<Avatar src={photoUrl} className={classes.bigAvatar} />
-						</ListItemAvatar>
-						<ListItemText primary={values.user.name} secondary={values.user.email} />{' '}
-						{auth.isAuthenticate().user && auth.isAuthenticate().user._id == values.user._id ? (
-							<ListItemSecondaryAction>
-								<Link to={'/user/edit/' + values.user._id}>
-									<IconButton aria-label='Edit' color='primary'>
-										<Edit />
-									</IconButton>
-								</Link>
-								<DeleteUser userId={values.user._id} />
-							</ListItemSecondaryAction>
-						) : (
-							<FollowProfileButton following={values.following} onButtonClick={clickFollowButton} />
-						)}
-					</ListItem>
-					<Divider />
-					<ListItem>
-						<ListItemText
-							primary={values.user.about}
-							secondary={'Joined: ' + new Date(values.user.created).toDateString()}
-						/>
-					</ListItem>
-				</List>
-				<FollowGrid people={values.user.followers} />
-				{/* <FollowGrid people={values.user.following} /> */}
-			</Paper>
-		</div>
+		<Paper className={classes.root} elevation={4}>
+			<Typography variant='h6' className={classes.title}>
+				Profile
+			</Typography>
+			<List dense>
+				<ListItem>
+					<ListItemAvatar>
+						<Avatar src={photoUrl} className={classes.bigAvatar} />
+					</ListItemAvatar>
+					<ListItemText primary={values.user.name} secondary={values.user.email} />{' '}
+					{auth.isAuthenticate().user && auth.isAuthenticate().user._id == values.user._id ? (
+						<ListItemSecondaryAction>
+							<Link to={'/user/edit/' + values.user._id}>
+								<IconButton aria-label='Edit' color='primary'>
+									<Edit />
+								</IconButton>
+							</Link>
+							<DeleteUser userId={values.user._id} />
+						</ListItemSecondaryAction>
+					) : (
+						<FollowProfileButton following={values.following} onButtonClick={clickFollowButton} />
+					)}
+				</ListItem>
+				<Divider />
+				<ListItem>
+					<ListItemText
+						primary={values.user.about}
+						secondary={'Joined: ' + new Date(values.user.created).toDateString()}
+					/>
+				</ListItem>
+			</List>
+			<ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost} />
+		</Paper>
 	);
 }
