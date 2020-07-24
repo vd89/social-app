@@ -15,8 +15,8 @@ import {
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import auth from '../auth/authHelper';
-import { DeleteIcon, Favorite, FavoriteBorder, Comment } from '@material-ui/icons';
-import { values } from 'lodash';
+import { Favorite, FavoriteBorder, Comment } from '@material-ui/icons';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Comments from './Comments';
 
 const useStyles = makeStyles((theme) => ({

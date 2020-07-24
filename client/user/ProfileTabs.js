@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Tabs } from '@material-ui/core';
+import { AppBar, Tabs, Tab ,Typography} from '@material-ui/core';
 import PostList from '../post/PostList';
 import FollowGrid from './FollowGrid';
 
