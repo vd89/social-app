@@ -13,6 +13,7 @@ import {
 	Icon,
 	CardActions,
 	makeStyles,
+	Button,
 } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 import auth from '../auth/authHelper';
@@ -75,7 +76,9 @@ function NewPosts(props) {
 		let postData = new FormData();
 		postData.append('text', values.text);
 		postData.append('photo', values.photo);
+		console.log(postData);
 		create({ userId: jwt.user._id }, { t: jwt.token }, postData).then((data) => {
+			console.log("data", data);
 			if (data.error) {
 				setValues({ ...values, error: data.error });
 			} else {
@@ -89,12 +92,12 @@ function NewPosts(props) {
 		const value = name === 'photo' ? event.target.files[0] : event.target.value;
 		setValues({ ...values, [name]: value });
 	};
-	const photoUrl = value.user._id
+	const photoUrl = values.user._id
 		? '/api/users/photo/' + values.user._id
 		: '/api/users/defaultphoto';
 
 	return (
-		<div className={clases.root}>
+		<div className={classes.root}>
 			<Card className={classes.card}>
 				<CardHeader
 					avatar={<Avatar src={photoUrl} />}
@@ -104,11 +107,11 @@ function NewPosts(props) {
 				<CardContent className={classes.cardContent}>
 					<TextField
 						className={classes.textField}
+						onChange={handleChange('text')}
 						placeholder='Share your thoughts...'
 						multiline
 						row='3'
 						value={values.text}
-						onChange={handleChange('text')}
 						margin='normal'
 					/>
 					<input

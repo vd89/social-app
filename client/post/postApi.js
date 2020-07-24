@@ -19,7 +19,7 @@ const listNewsFeed = async (params, credentials, signal) => {
 
 const create = async (params, credentials, post) => {
 	try {
-		const response = await fetch('/api/posts/new' + params.userId, {
+		const response = await fetch('/api/posts/new/' + params.userId, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
