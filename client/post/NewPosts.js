@@ -12,6 +12,7 @@ import {
 	Typography,
 	Icon,
 	CardActions,
+	makeStyles,
 } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 import auth from '../auth/authHelper';

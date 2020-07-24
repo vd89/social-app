@@ -133,4 +133,4 @@ const remove = async (params, credentials) => {
 	}
 };
 
-export default { listNewsFeed, create, listByUser, like, unlike, comment, uncomment, remove };
+export { listNewsFeed, create, listByUser, like, unlike, comment, uncomment, remove };

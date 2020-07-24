@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const FindPeople = () => {
+ const FindPeople = () => {
 	const classes = useStyles();
 	const [values, setValues] = useState({
 		users: [],
@@ -144,3 +144,5 @@ export const FindPeople = () => {
 		</div>
 	);
 };
+
+export default FindPeople

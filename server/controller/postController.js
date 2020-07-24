@@ -1,9 +1,12 @@
 /** @format */
 
 import formiable from 'formidable';
-import { getErrorMessage } from '../helpers';
+import errHandler from '../helpers/dbErrorHandler';
 import Post from '../models/Post';
 import { readFileSync } from 'fs';
+
+const { getErrorMessage } = errHandler;
+
 
 const listNewsFeed = async (req, res) => {
 	const following = req.profile.following;

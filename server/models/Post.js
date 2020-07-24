@@ -26,14 +26,14 @@ const PostSchema = new Schema({
 			},
 			postedBy: {
 				type: {
-					type: Schema.type.ObjectId,
+					type: Schema.Types.ObjectId,
 					ref: 'User',
 				},
 			},
 		},
 	],
 	postedBy: {
-		type: Schema.type.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: 'User',
 	},
 	created: {
